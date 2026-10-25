@@ -1,0 +1,697 @@
+/* =========================================================
+   DepGuard prototype styles
+   Colours are based on the VS Code "Dark Modern" theme
+   ========================================================= */
+
+:root {
+  --bg-editor: #1f1f1f;
+  --bg-sidebar: #181818;
+  --border: #2b2b2b;
+  --text: #cccccc;
+  --text-dim: #9d9d9d;
+  --blue: #0078d4;
+  --red: #f14c4c;
+  --amber: #e2b93d;
+  --green: #73c991;
+  --input-bg: #313131;
+  --row-hover: #2a2d2e;
+  --row-selected: #04395e;
+  --card-bg: #252526;
+  --mono: "DejaVu Sans Mono", Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #111;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+}
+
+.hint {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  margin: 0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #333;
+  color: #ddd;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+
+/* ---------- Window layout ---------- */
+
+.window {
+  position: relative;
+  width: 1280px;
+  height: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: 34px 1fr 22px;
+  background: var(--bg-editor);
+  border: 1px solid #000;
+  overflow: hidden;
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  background: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+.window-dots .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+
+.dot-red    { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green  { background: #28c840; }
+
+.window-title {
+  flex: 1;
+  text-align: center;
+}
+
+.title-spacer {
+  width: 60px;
+}
+
+.workbench {
+  display: grid;
+  grid-template-columns: 48px 300px 1fr;
+  min-height: 0;
+}
+
+
+/* ---------- Activity bar ---------- */
+
+.activity-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+}
+
+.activity-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 44px;
+  color: #868686;
+  cursor: pointer;
+}
+
+.activity-icon.active {
+  color: #fff;
+  border-left: 2px solid var(--blue);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.badge {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--red);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 14px;
+}
+
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px 6px;
+  color: #bbb;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+}
+
+.sidebar-header .count {
+  color: var(--text-dim);
+}
+
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.group-title.blocked  { color: var(--red); }
+.group-title.review   { color: var(--amber); }
+.group-title.verified { color: var(--green); }
+.group-title.removed  { color: var(--text-dim); }
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 22px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+}
+
+.list-row:hover {
+  background: var(--row-hover);
+}
+
+.list-row.selected {
+  background: var(--row-selected);
+  border-left-color: var(--blue);
+}
+
+.list-row .name {
+  color: #e6e6e6;
+}
+
+.list-row .name.struck {
+  color: var(--text-dim);
+  text-decoration: line-through;
+}
+
+.list-row .detail {
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+.sidebar-footer {
+  padding: 14px 16px;
+}
+
+.sidebar-footer .btn {
+  width: 100%;
+}
+
+/* Small status icons: blocked, review, verified */
+.status-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  color: #1f1f1f;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.status-icon.blocked  { background: var(--red); }
+.status-icon.review   { background: var(--amber); border-radius: 50%; }
+.status-icon.verified { background: var(--green); border-radius: 50%; }
+
+
+/* ---------- Editor area ---------- */
+
+.editor-area {
+  display: grid;
+  grid-template-rows: 35px 1fr 230px;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* When a DepGuard detail page is open, hide the terminal */
+.editor-area.no-terminal {
+  grid-template-rows: 35px 1fr 0;
+}
+
+.tab-bar {
+  display: flex;
+  background: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  border-right: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.tab.active {
+  background: var(--bg-editor);
+  border-top: 1px solid var(--blue);
+  color: #fff;
+}
+
+.editor-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* package.json code view */
+.code-view {
+  min-height: 0;
+  padding: 14px 0;
+  overflow: auto;
+  font-family: var(--mono);
+  line-height: 20px;
+  white-space: pre;
+}
+
+.line-number {
+  display: inline-block;
+  width: 52px;
+  padding-right: 18px;
+  color: #6e7681;
+  text-align: right;
+}
+
+.json-key    { color: #9cdcfe; }
+.json-string { color: #ce9178; }
+.json-punct  { color: #d4d4d4; }
+
+.squiggle-red {
+  text-decoration: underline wavy var(--red);
+  text-underline-offset: 3px;
+}
+
+.squiggle-amber {
+  text-decoration: underline wavy var(--amber);
+  text-underline-offset: 3px;
+}
+
+.inline-note {
+  margin-left: 14px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  white-space: normal;
+}
+
+.inline-note.blocked {
+  color: var(--red);
+  background: rgba(241, 76, 76, 0.12);
+}
+
+.inline-note.review {
+  color: var(--amber);
+  background: rgba(226, 185, 61, 0.12);
+}
+
+
+/* ---------- Terminal ---------- */
+
+.bottom-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--bg-editor);
+  border-top: 1px solid var(--border);
+}
+
+.panel-tabs {
+  display: flex;
+  gap: 18px;
+  padding: 6px 16px;
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.panel-tabs .active {
+  padding-bottom: 3px;
+  border-bottom: 1px solid #e7e7e7;
+  color: #e7e7e7;
+}
+
+.terminal {
+  padding: 4px 16px;
+  overflow: auto;
+  font-family: var(--mono);
+  line-height: 19px;
+  white-space: pre;
+}
+
+.terminal .red   { color: var(--red); font-weight: 700; }
+.terminal .amber { color: var(--amber); font-weight: 700; }
+.terminal .green { color: var(--green); font-weight: 700; }
+.terminal .muted { color: #8b8b8b; }
+.terminal .bold  { color: #fff; font-weight: 700; }
+
+.next-label {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 2px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 700;
+}
+
+
+/* ---------- Status bar ---------- */
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 10px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 12px;
+}
+
+.status-bar.all-clear {
+  background: #16825d;
+}
+
+.status-bar .depguard-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  padding: 0 6px;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+}
+
+.status-bar .push-right {
+  margin-left: auto;
+}
+
+
+/* ---------- DepGuard detail pages ---------- */
+
+.detail-page {
+  min-height: 0;
+  padding: 26px 36px;
+  overflow: auto;
+}
+
+.detail-page.empty {
+  color: var(--text-dim);
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pill.review {
+  color: var(--amber);
+  background: rgba(226, 185, 61, 0.15);
+  border: 1px solid var(--amber);
+}
+
+.pill.blocked {
+  color: var(--red);
+  background: rgba(241, 76, 76, 0.15);
+  border: 1px solid var(--red);
+}
+
+.pill.verified {
+  color: var(--green);
+  background: rgba(115, 201, 145, 0.15);
+  border: 1px solid var(--green);
+}
+
+.lead {
+  margin: 6px 0 4px;
+  color: #e0e0e0;
+  font-size: 14px;
+}
+
+.note {
+  margin-bottom: 16px;
+  color: var(--text-dim);
+  font-size: 12.5px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.card {
+  padding: 14px 16px;
+  background: var(--card-bg);
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.card.narrow {
+  max-width: 620px;
+}
+
+.card h3 {
+  margin: 0 0 10px;
+  color: #bbb;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.evidence {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 7px 0;
+  font-size: 13.5px;
+}
+
+.evidence .marker {
+  width: 14px;
+  color: var(--amber);
+  font-weight: 800;
+}
+
+.evidence .marker.red {
+  color: var(--red);
+}
+
+.alternative-name {
+  margin-bottom: 8px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  color: #ddd;
+}
+
+.stat span:first-child {
+  color: var(--text-dim);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 7px 14px;
+  border: 1px solid #3c3c3c;
+  border-radius: 4px;
+  background: var(--input-bg);
+  color: #e7e7e7;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  filter: brightness(1.15);
+}
+
+.btn.primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  font-weight: 600;
+}
+
+.links {
+  margin-top: 14px;
+  font-size: 12.5px;
+}
+
+.links a {
+  margin-right: 18px;
+  color: #4daafc;
+  text-decoration: none;
+}
+
+/* "Keep with reason" form */
+.form-box {
+  max-width: 640px;
+  margin-top: 6px;
+  padding: 18px 20px;
+  background: var(--card-bg);
+  border: 1px solid #454545;
+  border-radius: 8px;
+}
+
+.form-label {
+  margin-bottom: 6px;
+  color: #ddd;
+  font-size: 12.5px;
+}
+
+.form-box textarea {
+  width: 100%;
+  height: 64px;
+  padding: 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--blue);
+  border-radius: 4px;
+  color: #eee;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  resize: none;
+}
+
+.save-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 6px;
+  color: #ddd;
+  font-size: 12.5px;
+}
+
+.record-preview {
+  padding: 8px 10px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #cfcfcf;
+  font-family: var(--mono);
+  font-size: 12px;
+  white-space: pre;
+}
+
+/* Summary page */
+.resolved-list {
+  margin: 14px 0;
+  padding: 0;
+}
+
+.resolved-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-size: 14px;
+  list-style: none;
+}
+
+.resolved-list b {
+  color: #fff;
+}
+
+.resolved-list .outcome {
+  color: var(--text-dim);
+}
+
+
+/* ---------- Notification popup ---------- */
+
+.notification {
+  position: absolute;
+  right: 16px;
+  bottom: 262px;
+  width: 430px;
+  padding: 12px 14px;
+  background: var(--card-bg);
+  border: 1px solid #454545;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+.notification-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #eee;
+  font-size: 13.5px;
+}
+
+.notification-source {
+  margin: 6px 0 10px 26px;
+  color: var(--text-dim);
+  font-size: 11.5px;
+}
+
+.notification .button-row {
+  margin: 0 0 0 26px;
+}

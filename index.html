@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DepGuard High Fidelity Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <p class="hint">Clickable prototype. Press R to restart.</p>
+
+  <!-- Fake VS Code window -->
+  <div class="window">
+
+    <!-- Title bar -->
+    <header class="title-bar">
+      <div class="window-dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="window-title">invoice-app — Visual Studio Code</div>
+      <div class="title-spacer"></div>
+    </header>
+
+    <div class="workbench">
+
+      <!-- Left activity bar (icons) -->
+      <nav class="activity-bar">
+        <div class="activity-icon" data-action="show-explorer" title="Explorer">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M7 3h7l5 5v13H7z" />
+            <path d="M14 3v5h5" />
+          </svg>
+        </div>
+
+        <div class="activity-icon" title="Search">
+          <svg class="icon" viewBox="0 0 24 24">
+            <circle cx="10" cy="10" r="6" />
+            <path d="M15 15l6 6" />
+          </svg>
+        </div>
+
+        <div class="activity-icon" title="Source Control">
+          <svg class="icon" viewBox="0 0 24 24">
+            <circle cx="6" cy="5" r="2" />
+            <circle cx="6" cy="19" r="2" />
+            <circle cx="18" cy="8" r="2" />
+            <path d="M6 7v10M18 10c0 5-12 3-12 7" />
+          </svg>
+        </div>
+
+        <div class="activity-icon" id="depguard-icon" data-action="open-panel" title="DepGuard">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+          <span class="badge" id="issue-badge">2</span>
+        </div>
+      </nav>
+
+      <!-- Sidebar: Explorer or DepGuard panel (filled by app.js) -->
+      <aside class="sidebar" id="sidebar"></aside>
+
+      <!-- Editor area -->
+      <main class="editor-area" id="editor-area">
+        <div class="tab-bar" id="tab-bar"></div>
+        <div class="editor-content" id="editor-content"></div>
+
+        <!-- Bottom terminal panel -->
+        <section class="bottom-panel">
+          <div class="panel-tabs">
+            <span>PROBLEMS</span>
+            <span>OUTPUT</span>
+            <span class="active">TERMINAL</span>
+          </div>
+          <div class="terminal" id="terminal"></div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="status-bar" id="status-bar"></footer>
+
+    <!-- Notification popup (filled by app.js) -->
+    <div id="notification-area"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
